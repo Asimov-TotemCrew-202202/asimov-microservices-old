@@ -24,9 +24,13 @@ public class CompetenceServiceImpl implements CompetenceService {
 
     private final Validator validator;
 
-    public CompetenceServiceImpl(CompetenceRepository competenceRepository, Validator validator) {
+    private final CompetenceEventsProducerService competenceEventsProducerService;
+
+    public CompetenceServiceImpl(CompetenceRepository competenceRepository, Validator validator, CompetenceEventsProducerService competenceEventsProducerService) {
+        super();
         this.competenceRepository = competenceRepository;
         this.validator = validator;
+        this.competenceEventsProducerService = competenceEventsProducerService;
     }
 
     @Override
@@ -50,6 +54,9 @@ public class CompetenceServiceImpl implements CompetenceService {
         Set<ConstraintViolation<Competence>> violations = validator.validate(competence);
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
+
+        System.out.println("Received " + competence);
+        this.competenceEventsProducerService.publish(competenceRepository.save(competence));
 
         return competenceRepository.save(competence);
     }
