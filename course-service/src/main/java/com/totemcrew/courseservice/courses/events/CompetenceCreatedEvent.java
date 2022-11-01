@@ -1,6 +1,6 @@
-package com.totemcrew.competenceservice.competences.events;
+package com.totemcrew.courseservice.courses.events;
 
-import com.totemcrew.competenceservice.competences.domain.model.entity.Competence;
+import com.totemcrew.courseservice.courses.domain.model.entity.Competence;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
