@@ -22,14 +22,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private static final String ENTITY = "Announcement";
 
-    @Autowired
-    private AnnouncementRepository announcementRepository;
+    private final AnnouncementRepository announcementRepository;
 
-    @Autowired
-    private DirectorRepository directorRepository;
+    private final DirectorRepository directorRepository;
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
+
+    public AnnouncementServiceImpl(AnnouncementRepository announcementRepository, DirectorRepository directorRepository, Validator validator) {
+        super();
+        this.announcementRepository = announcementRepository;
+        this.directorRepository = directorRepository;
+        this.validator = validator;
+    }
 
     @Override
     public List<Announcement> getAllByDirectorId(Long directorId) {

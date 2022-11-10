@@ -5,6 +5,7 @@ import com.totemcrew.announcements.resource.CreateAnnouncementResource;
 import com.totemcrew.announcements.resource.UpdateAnnouncementResource;
 import com.totemcrew.announcements.domain.service.AnnouncementService;
 import com.totemcrew.announcements.mapping.AnnouncementMapper;
+import com.totemcrew.announcements.service.AnnouncementEventsProducerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,12 @@ public class AnnouncementsController {
     private final AnnouncementService announcementService;
 
     private final AnnouncementMapper mapper;
+    private final AnnouncementEventsProducerService announcementEventsProducerService;
 
-    public AnnouncementsController(AnnouncementService announcementService, AnnouncementMapper mapper) {
+    public AnnouncementsController(AnnouncementService announcementService, AnnouncementMapper mapper, AnnouncementEventsProducerService announcementEventsProducerService) {
         this.announcementService = announcementService;
         this.mapper = mapper;
+        this.announcementEventsProducerService = announcementEventsProducerService;
     }
 
     @GetMapping("directors/{directorId}/announcements")
@@ -32,7 +35,9 @@ public class AnnouncementsController {
 
     @PostMapping("directors/{directorId}/announcements")
     public AnnouncementResource createAnnouncement(@PathVariable Long directorId, @RequestBody CreateAnnouncementResource request) {
-        return mapper.toResource(announcementService.create(directorId, mapper.toModel(request)));
+        var val = mapper.toResource(announcementService.create(directorId, mapper.toModel(request)));
+        this.announcementEventsProducerService.publish(val);
+        return val;
     }
 
     @PutMapping("announcements/{announcementId}")
