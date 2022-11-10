@@ -1,6 +1,6 @@
-package com.totemcrew.competences.config;
+package com.totemcrew.announcements.config;
 
-import com.totemcrew.competences.events.Event;
+import com.totemcrew.announcements.events.Event;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class KafkaConsumerConfig {
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapAddress);
-        props.put(JsonSerializer.TYPE_MAPPINGS,"com.totemcrew.competences:com.totemcrew.competences.events.Event");
+        props.put(JsonSerializer.TYPE_MAPPINGS,"com.totemcrew.announcements:com.totemcrew.announcements.events.Event");
         final JsonDeserializer<Event<?>> jsonDeserializer = new JsonDeserializer<>();
         return new DefaultKafkaConsumerFactory(
                 props,
