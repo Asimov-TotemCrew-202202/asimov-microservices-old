@@ -11,3 +11,4 @@ This repository contains the backend for the asimov project
 
 ## Documentation
 * version 1.0.0 01/11/2022
+* version 2.0.0 26/11/2022
